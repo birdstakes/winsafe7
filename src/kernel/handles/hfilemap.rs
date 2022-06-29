@@ -29,10 +29,11 @@ pub trait KernelHfilemap: Handle {
 		number_of_bytes_to_map: Option<usize>) -> WinResult<HFILEMAPVIEW>
 	{
 		unsafe {
-			kernel::ffi::MapViewOfFileFromApp(
+			kernel::ffi::MapViewOfFile(
 				self.as_ptr(),
 				desired_access.0,
-				offset,
+				(offset >> 32) as u32,
+				offset as u32,
 				number_of_bytes_to_map.unwrap_or_default(),
 			).as_mut()
 		}.map(|ptr| HFILEMAPVIEW(ptr))

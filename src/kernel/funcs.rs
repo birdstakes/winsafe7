@@ -212,16 +212,6 @@ pub fn GetEnvironmentStrings() -> WinResult<HashMap<String, String>> {
 		.ok_or_else(|| GetLastError())
 }
 
-/// [`GetFirmwareType`](https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfirmwaretype)
-/// function.
-#[cfg_attr(docsrs, doc(cfg(feature = "kernel")))]
-#[must_use]
-pub fn GetFirmwareType() -> WinResult<co::FIRMWARE_TYPE> {
-	let mut ft = u32::default();
-	bool_to_winresult(unsafe { kernel::ffi::GetFirmwareType(&mut ft) })
-		.map(|_| co::FIRMWARE_TYPE(ft))
-}
-
 /// [`GetLargePageMinimum`](https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-getlargepageminimum)
 /// function.
 #[cfg_attr(docsrs, doc(cfg(feature = "kernel")))]
@@ -331,13 +321,6 @@ pub fn GetSystemTime(st: &mut SYSTEMTIME) {
 #[cfg_attr(docsrs, doc(cfg(feature = "kernel")))]
 pub fn GetSystemTimeAsFileTime(ft: &mut FILETIME) {
 	unsafe { kernel::ffi::GetSystemTimeAsFileTime(ft as *mut _ as _) }
-}
-
-/// [`GetSystemTimePreciseAsFileTime`](https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemtimepreciseasfiletime)
-/// function.
-#[cfg_attr(docsrs, doc(cfg(feature = "kernel")))]
-pub fn GetSystemTimePreciseAsFileTime(ft: &mut FILETIME) {
-	unsafe { kernel::ffi::GetSystemTimePreciseAsFileTime(ft as *mut _ as _) }
 }
 
 /// [`GetSystemTimes`](https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getsystemtimes)
@@ -506,18 +489,6 @@ pub const fn HIDWORD(v: u64) -> u32 {
 #[must_use]
 pub const fn HIWORD(v: u32) -> u16 {
 	(v >> 16 & 0xffff) as _
-}
-
-/// [`IsNativeVhdBoot`](https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-isnativevhdboot)
-/// function.
-#[cfg_attr(docsrs, doc(cfg(feature = "kernel")))]
-#[must_use]
-pub fn IsNativeVhdBoot() -> WinResult<bool> {
-	let mut is_native: BOOL = 0;
-	match unsafe { kernel::ffi::IsNativeVhdBoot(&mut is_native) } {
-		0 => Err(GetLastError()),
-		_ => Ok(is_native != 0),
-	}
 }
 
 /// [`IsWindows10OrGreater`](https://docs.microsoft.com/en-us/windows/win32/api/versionhelpers/nf-versionhelpers-iswindows10orgreater)

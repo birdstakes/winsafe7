@@ -4,7 +4,7 @@ extern_sys! { "kernel32";
 	BeginUpdateResourceW(PCSTR, BOOL) -> HANDLE
 	CloseHandle(HANDLE) -> BOOL
 	CopyFileW(PCSTR, PCSTR, BOOL) -> BOOL
-	CreateFileMappingFromApp(HANDLE, PVOID, u32, u64, PCSTR) -> HANDLE
+	CreateFileMappingW(HANDLE, PVOID, u32, u32, u32, PCSTR) -> HANDLE
 	CreateFileW(PCSTR, u32, u32, PVOID, u32, u32, HANDLE) -> HANDLE
 	CreatePipe(*mut HANDLE, *mut HANDLE, PVOID, u32) -> BOOL
 	CreateProcessW(PCSTR, PSTR, PVOID, PVOID, BOOL, u32, PVOID, PCSTR, PVOID, PVOID) -> BOOL
@@ -47,7 +47,6 @@ extern_sys! { "kernel32";
 	GetFileInformationByHandle(HANDLE, PVOID) -> BOOL
 	GetFileSizeEx(HANDLE, *mut i64) -> BOOL
 	GetFileType(HANDLE) -> u32
-	GetFirmwareType(*mut u32) -> BOOL
 	GetGuiResources(HANDLE, u32) -> u32
 	GetLargePageMinimum() -> u64
 	GetLastError() -> u32
@@ -64,7 +63,6 @@ extern_sys! { "kernel32";
 	GetSystemInfo(PVOID)
 	GetSystemTime(PVOID)
 	GetSystemTimeAsFileTime(PVOID)
-	GetSystemTimePreciseAsFileTime(PVOID)
 	GetSystemTimes(PVOID, PVOID, PVOID) -> BOOL
 	GetTempPathW(u32, PSTR) -> u32
 	GetThreadId(HANDLE) -> u32
@@ -79,7 +77,6 @@ extern_sys! { "kernel32";
 	GlobalReAlloc(HANDLE, u64, u32) -> HANDLE
 	GlobalSize(HANDLE) -> u64
 	GlobalUnlock(HANDLE) -> BOOL
-	IsNativeVhdBoot(*mut BOOL) -> BOOL
 	IsTokenRestricted(HANDLE) -> BOOL
 	IsWow64Process(HANDLE, *mut BOOL) -> BOOL
 	LoadLibraryW(PCSTR) -> HANDLE
@@ -89,7 +86,7 @@ extern_sys! { "kernel32";
 	LockFile(HANDLE, u32, u32, u32, u32) -> BOOL
 	LockResource(HANDLE) -> PVOID
 	lstrlenW(PCSTR) -> i32
-	MapViewOfFileFromApp(HANDLE, u32, u64, usize) -> PVOID
+	MapViewOfFile(HANDLE, u32, u32, u32, usize) -> PVOID
 	MoveFileW(PCSTR, PCSTR) -> BOOL
 	MulDiv(i32, i32, i32) -> i32
 	MultiByteToWideChar(u32, u32, *const u8, i32, PSTR, i32) -> i32

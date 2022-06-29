@@ -106,12 +106,14 @@ pub trait KernelHfile: Handle {
 		max_size: Option<u64>,
 		mapping_name: Option<&str>) -> WinResult<HFILEMAP>
 	{
+		let max_size = max_size.unwrap_or_default();
 		unsafe {
-			kernel::ffi::CreateFileMappingFromApp(
+			kernel::ffi::CreateFileMappingW(
 				self.as_ptr(),
 				mapping_attrs.map_or(std::ptr::null_mut(), |lp| lp as *mut _ as _),
 				protect.0,
-				max_size.unwrap_or_default(),
+				(max_size >> 32) as u32,
+				max_size as u32,
 				WString::from_opt_str(mapping_name).as_ptr(),
 			).as_mut()
 		}.map(|ptr| HFILEMAP(ptr))
